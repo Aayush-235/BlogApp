@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom'
 import { assets, blog_data, comments_data } from '../assets/assets';
 import Navbar from '../components/Navbar';
 import Moment from 'moment';
+import Footer from '../components/Footer';
+import Loader from '../components/Loader';
 
 const Blog = () => {
   const { id } = useParams(); // get the blog ID from >> URL parameters
@@ -10,23 +12,28 @@ const Blog = () => {
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
 
-  const fetchBlogData = async () => {
-    const data = blog_data.find((item) => (item._id === id))
+  const [name, setName] = useState('')
+  const [content, setContent] = useState('')
+
+  
+
+  const addComment = async (e) => {
+    e.preventDefault();
+  }
+
+  useEffect(() => {
+    async function fetchBlogData() {
+      const data = blog_data.find((item) => (item._id === id))
     setData(data);
-  }
+    }
 
-  const fetchComments = async () => {
-    setComments(comments_data)
-  }
-
-  const addComment = () => {
-
-  }
-
-  useEffect(() => (
+    async function fetchComments() {
+      setComments(comments_data)
+    }
+    
     fetchBlogData(),
     fetchComments()
-  ), [])
+}, [])
 
   return data ? (
     <div className='relative'>
@@ -70,19 +77,34 @@ const Blog = () => {
         <div className='max-w-3xl mx-auto '>
           <p className='font-semibold mb-4'>Add your comment</p>
           <form onSubmit={addComment} className='flex flex-col gap-4 items-start max-w-lg'>
-            <input type="text" placeholder='Name' required className='w-full p-2 border border-gray-300 rounded outline-none'/>
-            <textarea placeholder='Comment..' className='w-full p-2 border border-gray-300 rounded outline-none h-48'></textarea>
+
+            <input onChange={(e) => setName(e.target.value)} value={name} type="text" placeholder='Name' required className='w-full p-2 border border-gray-300 rounded outline-none' />
+
+            <textarea onChange={(e) => setContent(e.target.value)} value={content} placeholder='Comment..' className='w-full p-2 border border-gray-300 rounded outline-none h-48'></textarea>
 
             <button type='submit' className='bg-primary/80 hover:bg-primary text-white rounded p-2 px-8 hover:scale-102 transition-all cursor-pointer'>Submit</button>
+
           </form>
         </div>
+
+        {/* share buttons */}
+        <div className='my-24 max-w-3xl mx-auto '>
+          <p className='font-semibold my-4'>Share this articles on social media</p>
+          <div className='flex'>
+            <img src={assets.facebook_icon} width={50} alt="" />
+            <img src={assets.twitter_icon} width={50} alt="" />
+            <img src={assets.googleplus_icon} width={50} alt="" />
+
+          </div>
+        </div>
+
       </div>
+
+      <Footer/>
 
     </div>
   ) : (
-    <div>
-      <h1>Loading...</h1>
-    </div>
+    <Loader/>
   )
 }
 
