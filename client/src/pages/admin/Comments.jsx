@@ -1,10 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { comments_data } from '../../assets/assets'
+import Commentitem from '../../components/admin/Commentitem'
 
 const Comments = () => {
+
+  const [comment, setComment] = useState([])
+  const [filter, setFilter] = useState('Not Approved')
+
+  const fetchComments = async () => {
+    setComment(comments_data)
+  }
+  useEffect(() => {
+    fetchComments()
+  }, [])
+
   return (
-    <div>
-      
+    <div className='flex-1 h-screen pt-5 px-5 sm:pt-12 sm:pl-16 bg-blue-50/50'>
+      <div className='flex justify-between items-center max-w-3xl'>
+        <h1>Comments</h1>
+        <div className='flex gap-4'>
+          <button onClick={() => setFilter('Approved')} className={`shadow-custom-sm border rounded-full px-4 py-1 cursor-pointer text-xs ${filter === 'Approved' ? 'text-primary' : 'text-gray-700'}`}>Approved</button>
+
+          <button onClick={() => setFilter('Not Approved')} className={`shadow-custom-sm border rounded-full px-4 py-1 cursor-pointer text-xs ${filter === 'Not Approved' ? 'text-primary' : 'text-gray-700'}`}>Not Approved</button>
+        </div>
+      </div>
+    
+      <div className='relative h-4/5 mt-4 max-w-3xl overflow-x-auto shadow rounded-lg scrollbar-hide bg-white'>
+        <table className='w-full text-sm text-gray-500'>
+          <thead className='text-xs text-gray-700 text-left uppercase'>
+            <tr>
+              <th className='px-6 py-3' scope='col'>
+                  Blog Title & Comment
+              </th>
+              <th className='px-6 py-3 max-sm:hidden' scope='col'>
+                  Date
+              </th>
+              <th className='px-6 py-3' scope='col'>
+                  Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {comment.filter((cmt)=>{
+                if(filter === "Approved"){
+                  return cmt.isApproved === true
+                }
+                else{
+                  return cmt.isApproved === false
+                }
+            }).map((cmt, index)=>{
+                return  < Commentitem key={cmt._id} comment={cmt} index={index + 1} fetchComment={fetchComments} />
+            })}
+          </tbody>
+        </table>
+
+      </div>
     </div>
+   
   )
 }
 
