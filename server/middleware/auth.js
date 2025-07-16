@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 const auth = async (req, res, next) => {
     try {
 
-        const token = req.header("auth-token");
+        const token = req.header("Authorization");
 
         jwt.verify(token, process.env.JWT_SECRET)
         next()
