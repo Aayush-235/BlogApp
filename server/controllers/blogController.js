@@ -119,13 +119,37 @@ export const deleteBlogById = async (req, res) => {
     try {
 
         const { id } = req.body
-        const blogs = await blog.findByIdAndDelete(blogId)
+        const blogs = await blog.findByIdAndDelete(id)
 
         await blog.findByIdAndDelete(id)
         res.json({
             status: true,
             message: "Blog deleted successfully"
         })
+
+    } catch (error) {
+        console.log(error)
+        res.json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+export const togglePublishBlog = async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        const blogs = await blog.findById(id)
+        blogs.isPublished = !blogs.isPublished
+
+        await blogs.save();
+
+        res.json({
+            success: true,
+            message: "Blog status updated successfully"
+        })
+
 
     } catch (error) {
         res.json({
