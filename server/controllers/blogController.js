@@ -59,8 +59,78 @@ export const addBlog = async (req, res) => {
 
     } catch (error) {
         res.json({
-            status : false,
-            message : error.message
+            status: false,
+            message: error.message
         })
     }
-} 
+}
+
+
+
+export const getAllBlog = async (req, res) => {
+    try {
+
+        const blogs = await blog.find({
+            isPublished: true
+        })
+
+        res.json({
+            success: true,
+            blogs
+        })
+
+    } catch (error) {
+        res.json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+
+export const getBlogById = async (req, res) => {
+    try {
+
+        const { blogId } = req.params
+        const blogs = await blog.findById(blogId)
+
+        if (!blog) {
+            return res.json({
+                status: false,
+                message: "Blog not found"
+            })
+        }
+        res.json({
+            status: true,
+            blogs
+        })
+
+    } catch (error) {
+        res.json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+
+
+export const deleteBlogById = async (req, res) => {
+    try {
+
+        const { id } = req.body
+        const blogs = await blog.findByIdAndDelete(blogId)
+
+        await blog.findByIdAndDelete(id)
+        res.json({
+            status: true,
+            message: "Blog deleted successfully"
+        })
+
+    } catch (error) {
+        res.json({
+            status: false,
+            message: error.message
+        })
+    }
+}
