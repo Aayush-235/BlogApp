@@ -120,9 +120,12 @@ export const deleteBlogById = async (req, res) => {
     try {
 
         const { id } = req.body
-        const blogs = await blog.findByIdAndDelete(id)
 
         await blog.findByIdAndDelete(id)
+
+        //delete all comment associated with this blog
+        await comment.deleteMany({blog : id})
+
         res.json({
             status: true,
             message: "Blog deleted successfully"
@@ -159,6 +162,9 @@ export const togglePublishBlog = async (req, res) => {
         })
     }
 }
+
+
+//Comment
 
 export const addComment = async (req, res) => {
     try {
