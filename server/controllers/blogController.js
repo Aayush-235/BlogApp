@@ -81,6 +81,7 @@ export const getAllBlog = async (req, res) => {
         })
 
     } catch (error) {
+
         res.json({
             status: false,
             message: error.message
@@ -91,22 +92,25 @@ export const getAllBlog = async (req, res) => {
 
 export const getBlogById = async (req, res) => {
     try {
-
+       
         const { blogId } = req.params
         const blogs = await blog.findById(blogId)
 
-        if (!blog) {
+        if (!blogs) {
+              
             return res.json({
-                status: false,
+                success: false,
                 message: "Blog not found"
+               
             })
         }
         res.json({
-            status: true,
+            success: true,
             blogs
         })
 
     } catch (error) {
+        
         res.json({
             status: false,
             message: error.message
