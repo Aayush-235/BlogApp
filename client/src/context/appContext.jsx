@@ -17,13 +17,15 @@ export const AppProvider = ({ children }) => {
     const [input, setInput] = useState('');
 
     useEffect(() => {
-        fetchBlogs();
+        
         const token = localStorage.getItem('token');
 
         if (token) {
             setToken(token)
-            axios.defaults.headers.common['Authorization'] = `${token}`
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         }
+
+        fetchBlogs();
     }, [])
 
     // Function fro fetch blogs

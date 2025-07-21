@@ -4,6 +4,8 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import Sidebar from '../../components/admin/Sidebar'
 
 const Layout = () => {
+
+    
     const navigate = useNavigate()
     const logout = () => {
         navigate('/')

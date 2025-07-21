@@ -8,20 +8,20 @@ export const adminLogin = async (req, res) => {
 
         if (email !== process.env.ADMIN_EMAIL || password !== process.env.ADMIN_PASSWORD) {
             return res.json({
-                status: false,
+                success: false,
                 message: 'Invalid email or password',
             })
         }
 
         const token = jwt.sign({ email }, process.env.JWT_SECRET)
         res.json({
-            status: true,
+            success: true,
             token
         })
 
     } catch (error) {
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
@@ -41,7 +41,7 @@ export const getAllBlogAdmin = async (req, res) => {
 
     } catch (error) {
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
@@ -83,7 +83,7 @@ export const getAllComment = async (req, res) => {
 
     } catch (error) {
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
@@ -114,7 +114,7 @@ export const getDashboard = async (req, res) => {
 
     } catch (error) {
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
@@ -132,7 +132,7 @@ export const deleteCommentById = async (req, res) => {
 
     } catch (error) {
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
@@ -152,7 +152,7 @@ export const approveCommentById = async (req, res) => {
 
     } catch (error) {
         res.json({ 
-            status: false,
+            success: false,
             message: error.message
         })
     }

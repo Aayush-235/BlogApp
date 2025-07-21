@@ -18,7 +18,7 @@ export const addBlog = async (req, res) => {
 
         if (!title || !description || !category || !imageFile) {
             return res.json({
-                status: false,
+                success: false,
                 message: "Please fill all the fields",
             })
         }
@@ -51,16 +51,18 @@ export const addBlog = async (req, res) => {
         await blog.create({
             title, subTitle, category, description, image, isPublished
         })
-
+        
         res.json({
-            status: true,
+            success: true,
             message: "Blog created successfully",
         })
 
 
-    } catch (error) {
+    } 
+    catch (error) {
+       
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
