@@ -18,9 +18,11 @@ const Login = () => {
             const data = await axios.post('api/admin/login',{email, password})
 
             if (data.data.success) {
-                setToken(data.data.token)
-                localStorage.setItem('token', data.data.token)
-                axios.defaults.headers.common['Authorization'] = data.data.token
+                const bearerToken = `Bearer ${data.data.token}`;
+                
+                setToken(bearerToken)
+                localStorage.setItem('token', bearerToken)
+                axios.defaults.headers.common['Authorization'] = bearerToken;
                 
             }
             else{    

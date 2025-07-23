@@ -18,6 +18,8 @@ export const AppProvider = ({ children }) => {
 
     useEffect(() => {
         
+        fetchBlogs();
+        
         const token = localStorage.getItem('token');
 
         if (token) {
@@ -25,7 +27,6 @@ export const AppProvider = ({ children }) => {
             axios.defaults.headers.common['Authorization'] = token
         }
 
-        fetchBlogs();
     }, [])
 
     // Function fro fetch blogs

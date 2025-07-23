@@ -60,8 +60,9 @@ export const addBlog = async (req, res) => {
 
     } 
     catch (error) {
-       
+       console.log(error)
         res.json({
+
             success: false,
             message: error.message
         })
@@ -71,6 +72,8 @@ export const addBlog = async (req, res) => {
 
 
 export const getAllBlog = async (req, res) => {
+
+
     try {
 
         const blogs = await blog.find({
