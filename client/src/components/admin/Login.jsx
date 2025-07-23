@@ -14,17 +14,17 @@ const Login = () => {
 
         try {
 
-
-            const data = await axios.post('api/admin/login',{email, password})
             
-            if (data.success) {
-                setToken(data.token)
-                localStorage.setItem('token', `Bearer ${data.token}`)
-                axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
-            }
-            else{
+            const data = await axios.post('api/admin/login',{email, password})
+
+            if (data.data.success) {
+                setToken(data.data.token)
+                localStorage.setItem('token', data.data.token)
+                axios.defaults.headers.common['Authorization'] = data.data.token
                 
-                 toast.error(data.message)
+            }
+            else{    
+                 toast.error('here')
             }
 
 
