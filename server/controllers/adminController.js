@@ -80,7 +80,7 @@ export const getAllComment = async (req, res) => {
 
         res.json({
             success: true,
-            blogs
+            comments
         })
 
 

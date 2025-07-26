@@ -1,14 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { comments_data } from '../../assets/assets'
 import Commentitem from '../../components/admin/Commentitem'
+import { useAppContext } from '../../context/appContext'
+import toast from 'react-hot-toast'
 
 const Comments = () => {
 
   const [comment, setComment] = useState([])
   const [filter, setFilter] = useState('Not Approved')
 
+  const { axios } = useAppContext()
+
+
   const fetchComments = async () => {
-    setComment(comments_data)
+    try {
+      const {data} = await axios.get('api/admin/allcomment')
+      if(data.success) {
+        setComment(data.comments)
+      }
+      else{
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
   useEffect(() => {
     fetchComments()
@@ -24,39 +38,39 @@ const Comments = () => {
           <button onClick={() => setFilter('Not Approved')} className={`shadow-custom-sm border rounded-full px-4 py-1 cursor-pointer text-xs ${filter === 'Not Approved' ? 'text-primary' : 'text-gray-700'}`}>Not Approved</button>
         </div>
       </div>
-    
+
       <div className='relative h-4/5 mt-4 max-w-3xl overflow-x-auto shadow rounded-lg scrollbar-hide bg-white'>
         <table className='w-full text-sm text-gray-500'>
           <thead className='text-xs text-gray-700 text-left uppercase'>
             <tr>
               <th className='px-6 py-3' scope='col'>
-                  Blog Title & Comment
+                Blog Title & Comment
               </th>
               <th className='px-6 py-3 max-sm:hidden' scope='col'>
-                  Date
+                Date
               </th>
               <th className='px-6 py-3' scope='col'>
-                  Action
+                Action
               </th>
             </tr>
           </thead>
           <tbody>
-            {comment.filter((cmt)=>{
-                if(filter === "Approved"){
-                  return cmt.isApproved === true
-                }
-                else{
-                  return cmt.isApproved === false
-                }
-            }).map((cmt, index)=>{
-                return  < Commentitem key={cmt._id} comment={cmt} index={index + 1} fetchComment={fetchComments} />
+            {comment.filter((cmt) => {
+              if (filter === "Approved") {
+                return cmt.isApproved === true
+              }
+              else {
+                return cmt.isApproved === false
+              }
+            }).map((cmt, index) => {
+              return < Commentitem key={cmt._id} comment={cmt} index={index + 1} fetchComment={fetchComments} />
             })}
           </tbody>
         </table>
 
       </div>
     </div>
-   
+
   )
 }
 
