@@ -106,13 +106,13 @@ export const getDashboard = async (req, res) => {
             isPublished: false
         })
 
-        const dashboardData = {
+        const dashboarddata = {
             recentBlog, commentCount, draftsCount, blogsCount
         }
 
         res.json({
             success: true,
-            dashboardData
+            dashboarddata
         })
 
     } catch (error) {
