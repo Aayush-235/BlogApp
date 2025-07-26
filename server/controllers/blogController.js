@@ -88,7 +88,7 @@ export const getAllBlog = async (req, res) => {
     } catch (error) {
 
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
