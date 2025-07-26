@@ -218,3 +218,22 @@ export const getBlogComment = async (req, res) => {
         })
     }
 }
+
+
+export const generateContent = async (req, res) => {
+    try {
+        const { prompt } = req.body;
+        const content = await main(prompt + 'Generate a blog content based on this prompt')
+
+        res.json({
+            success: true,
+            content
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+        
+    }
+}
