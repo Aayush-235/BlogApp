@@ -2,6 +2,7 @@ import fs from 'fs'
 import imagekit from '../configs/imageKit.js';
 import blog from '../models/blog.js';
 import comment from '../models/comment.js';
+import main from '../configs/gemini.js';
 
 export const addBlog = async (req, res) => {
 
@@ -51,16 +52,16 @@ export const addBlog = async (req, res) => {
         await blog.create({
             title, subTitle, category, description, image, isPublished
         })
-        
+
         res.json({
             success: true,
             message: "Blog created successfully",
         })
 
 
-    } 
+    }
     catch (error) {
-       console.log(error)
+        console.log(error)
         res.json({
 
             success: false,
@@ -97,16 +98,16 @@ export const getAllBlog = async (req, res) => {
 
 export const getBlogById = async (req, res) => {
     try {
-       
+
         const { blogId } = req.params
         const blogs = await blog.findById(blogId)
 
         if (!blogs) {
-              
+
             return res.json({
                 success: false,
                 message: "Blog not found"
-               
+
             })
         }
         res.json({
@@ -115,7 +116,7 @@ export const getBlogById = async (req, res) => {
         })
 
     } catch (error) {
-        
+
         res.json({
             status: false,
             message: error.message
@@ -133,7 +134,7 @@ export const deleteBlogById = async (req, res) => {
         await blog.findByIdAndDelete(id)
 
         //delete all comment associated with this blog
-        await comment.deleteMany({blog : id})
+        await comment.deleteMany({ blog: id })
 
         res.json({
             success: true,
@@ -166,7 +167,7 @@ export const togglePublishBlog = async (req, res) => {
 
     } catch (error) {
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
@@ -190,7 +191,7 @@ export const addComment = async (req, res) => {
 
     } catch (error) {
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
@@ -212,7 +213,7 @@ export const getBlogComment = async (req, res) => {
 
     } catch (error) {
         res.json({
-            status: false,
+            success: false,
             message: error.message
         })
     }
